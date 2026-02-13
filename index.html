@@ -287,14 +287,31 @@ closeInvitees.onclick=()=>{
   details.style.display='block';
 };
 
-const eventDate=new Date('2026-03-010T13:00:00');
-setInterval(()=>{
-  const diff=eventDate-new Date();
-  if(diff<=0) return;
-  document.getElementById('d').textContent=Math.floor(diff/(1000*60*60*24));
-  document.getElementById('h').textContent=Math.floor((diff/(1000*60*60))%24);
-  document.getElementById('m').textContent=Math.floor((diff/(1000*60))%60);
-},1000);
+// Fixed countdown
+const eventDate = new Date('2026-03-10T13:00:00');
+
+function updateCountdown(){
+  const now = new Date();
+  let diff = eventDate - now;
+
+  if(diff <= 0){
+    document.getElementById('d').textContent = 0;
+    document.getElementById('h').textContent = 0;
+    document.getElementById('m').textContent = 0;
+    return;
+  }
+
+  const days = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff / (1000*60*60)) % 24);
+  const minutes = Math.floor((diff / (1000*60)) % 60);
+
+  document.getElementById('d').textContent = days;
+  document.getElementById('h').textContent = hours;
+  document.getElementById('m').textContent = minutes;
+}
+
+updateCountdown(); // initial call
+setInterval(updateCountdown, 1000);
 
 document.getElementById('rsvpBtn').onclick=()=>{
   window.open(
@@ -307,5 +324,3 @@ document.getElementById('rsvpBtn').onclick=()=>{
 
 </body>
 </html>
-
-
